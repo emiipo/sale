@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>{{ event.event_name }} on {{ event.event_date }}</title>
+    <style>
+	
+	h1 {
+	    color : #E8E8E8;
+ 	    padding: 0.5rem;
+	    padding-bottom: 0.5rem;
+	    width = 100%;    
+	    background: #787878;
+	    font-weight:normal;
+	}
+	
+	h2 {
+		color : #424242;
+		padding: 0.5rem;
+	    padding-bottom: 0.5rem;
+		width = 100%;
+	}
+	
+	h3{
+		color : #5e5e5e;
+		padding: 0.5rem;
+	}
+	
+	p{
+		color : #303030;
+		padding: 0.5rem;
+	}
+	
+	body {
+	     background: #E8E8E8;
+	     font-family:sans-serif;
+	}
+	
+	form {
+	     background: #dbdbdb;
+	     max-width:1500px;
+		 height:880px;
+	     padding: 2rem;
+    }
+	
+	p {
+		padding: 0.7rm;
+	}
+
+    </style>
+</head>
+<body>
+<form action="{% url 'events:event_edit_done' year month day event_id%}" method="post">
+    <h1 style="text-align:left">Edit event</h1>
+    {% csrf_token %}
+    <label for="name">Event name: </label>
+    <input type="text" name="name" value="{{ event.event_name }}" id="name" required><br>
+    {% if is_admin == 1 %}
+        <label for="users">Event coordinator: </label>
+        <select id="users" name="users">
+            {% for user in users %}
+                {% if user.user.id == event.event_user.id %}
+                    <option value="{{ user.user.id }}" selected>{{ user }}</option>
+                {% else %}
+                    <option value="{{ user.user.id }}">{{ user }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br>
+    {% endif %}
+    <label for="start_time">Event Start Time: </label>
+    <input type="time" step="1800" min="08:00" max="22:30" value="{{ start_time }}" name ="start_time" id="start_time" required><br>
+    <label for="end_time">Event End Time: </label>
+    <input type="time" step="1800" min="08:00" max="22:30" value="{{ end_time }}" name ="end_time" id="end_time" required><br>
+    <label for="description">Event Description: </label>
+    <textarea id="description" name="description" rows="10" cols="69">{{ event.event_desc }}</textarea>
+    <input type="submit" value="Done" id = "btn">
+</form>
+</body>
+</html>

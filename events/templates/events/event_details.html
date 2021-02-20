@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>{{ event.event_name }} on {{ event.event_date }}</title>
+    <style>
+	
+	h1 {
+	    color : #E8E8E8;
+ 	    padding: 0.5rem;
+	    padding-bottom: 0.5rem;
+	    width = 100%;    
+	    background: #787878;
+	    font-weight:normal;
+	}
+	
+	h2 {
+		color : #424242;
+		padding: 0.5rem;
+	    padding-bottom: 0.5rem;
+		width = 100%;
+	}
+	
+	h3{
+		color : #5e5e5e;
+		padding: 0.5rem;
+	}
+	
+	p{
+		color : #303030;
+		padding: 0.5rem;
+	}
+	
+	body {
+	     background: #E8E8E8;
+	     font-family:sans-serif;
+	}
+	
+	p {
+		padding: 0.7rm;
+	}
+
+    </style>
+</head>
+<body>
+<script>
+    setTimeout(function(){
+   window.location.reload(1);
+}, 5000);
+</script>
+
+    <h1 style="text-align:left">Event Details</h1>
+    <h2>{{ event.event_name }}</h2>
+	<h3>{{ event.event_date }}</h3>
+	<h3>{{ event.start_time }} - {{ event.end_time }}</h3>
+	<p>{{ event.event_desc }}</p>
+	<p>{{ event.event_location }}</p>
+	<p>Assigned To: {{user.first_name}} {{user.last_name}}</p>
+    {% if review %}
+	<p>Attended: {{ review.attended }}</p>
+	<p>Attendance: {{ review.attendance }}</p>
+	<p>Rating: {{ review.rating }}</p>
+	<p>Review: {{ review.review }}</p>
+    {% endif %}
+    {% if can_change %}
+        <hr>
+        <form action="{% url 'events:event_edit' year month day event_id%}">
+            <input type="submit" value="Edit" />
+        </form>
+        <form action="{% url 'events:event_remove' year month day event_id%}">
+            <input type="submit" value="Remove" />
+        </form>
+    {% endif %}
+</body>
+</html>
